@@ -19,8 +19,62 @@
                 const bodyElement = document.querySelector("body")
                 if (xhr.status == 200) {
 		            /* Part 2: Build the HTML elements here and append them to the body */
-                    const movie = JSON.parse(xhr.responseText)
-                    bodyElement.append(movie)
+                    const movies = JSON.parse(xhr.responseText)
+
+                    movies.forEach(movie => {
+                        const article = document.createElement("article");
+                        const title = document.createElement("h1");
+                        title.textContent = movie.Title;
+
+                        const poster = document.createElement("img");
+                        poster.src = movie.Poster;
+                        const plot = document.createElement("p");
+                        plot.textContent = movie.Plot;
+
+                        const overview = document.createElement("p");
+                        overview.textContent= "Release: " + movie.Released + " Runtime: " + movie.Runtime + " min " + " Rating: "  + movie.imdbRating + " Metascore: " + movie.Metascore;
+
+                        const genreBox = document.createElement("p");
+                        movie.Genres.forEach(genre => {
+                            const g = document.createElement("span");
+                            g.textContent = genre;
+                            g.classList.add("genre");
+                            genreBox.appendChild(g);
+                        })
+                        const directors = document.createElement("p");
+                        movie.Directors.forEach(director => {
+                            const d = document.createElement("span");
+                            d.textContent = director;
+                            d.classList.add("director");
+                            directors.appendChild(d);
+                        })
+
+                        const actors = document.createElement("p");
+                        movie.Actors.forEach(actor => {
+                            const a = document.createElement("span");
+                            a.textContent = actor;
+                            a.classList.add("actor");
+                            actors.appendChild(a);
+                            })
+                        const writers = document.createElement("p");
+                        movie.Writers.forEach(writer => {
+                            const w = document.createElement("span");
+                            w.textContent = writer;
+                            w.classList.add("writer");
+                            writers.appendChild(w);
+                        })
+
+                        article.appendChild(title);
+                        article.appendChild(poster);
+                        article.appendChild(overview);
+                        article.appendChild(genreBox);
+                        article.appendChild(plot);
+                        article.appendChild(directors);
+                        article.appendChild(writers);
+                        article.appendChild(actors);
+
+                        bodyElement.appendChild(article);
+                    })
 
                 } else {
                     bodyElement.append("Daten konnten nicht geladen werden, Status " + xhr.status + " - " + xhr.statusText)
